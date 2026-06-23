@@ -1,0 +1,7 @@
+.venv/
+out/
+__pycache__/
+*.pyc
+# 外部克隆（按 README 命令重建）
+engines/
+datasets/

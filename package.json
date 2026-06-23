@@ -1,0 +1,11 @@
+{
+  "name": "@amiba/nesting-copilot",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "排料/套料优化子智能体：板材/型材套料利用率分析与优化，结果上报阿米巴（料要素）",
+  "scripts": {
+    "dev": "node --watch src/index.js",
+    "start": "node src/index.js"
+  }
+}

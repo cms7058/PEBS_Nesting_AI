@@ -1,0 +1,10 @@
+fastapi>=0.110
+uvicorn[standard]>=0.29
+pydantic>=2.6
+pydantic-settings>=2.2
+eval_type_backport>=0.2   # Python 3.9 兼容 X|None 注解
+shapely>=2.0
+ezdxf>=1.1
+anthropic>=0.40
+openai>=1.30
+python-multipart>=0.0.9
