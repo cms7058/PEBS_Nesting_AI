@@ -77,9 +77,16 @@
 无需本地装 Rust / Python / Node,`docker compose` 自动编译 Rust 求解器、装后端依赖、构建前端:
 
 ```bash
-cp .env.docker.example .env   # 可选:预填 LLM key(也可启动后在前端「⚙ 模型配置」页填)
+cp .env.docker.example .env   # 可选:预填 LLM key / 改 FRONTEND_PORT
 docker compose up -d --build
-# 前端 http://localhost:8080 ;后端 API http://localhost:9100
+# 前端 http://localhost:8080(端口由 .env 的 FRONTEND_PORT 决定)
+```
+
+服务器部署可直接用一键脚本(自动 git pull、校验端口、构建启动、打印访问地址):
+
+```bash
+./deploy.sh                       # 拉取最新代码并部署/更新
+FRONTEND_PORT=18080 ./deploy.sh   # 临时指定前端端口(避开已占端口)
 ```
 
 - `backend` 镜像多阶段:`rust-builder` 编译 `bin_nester` → Python/FastAPI 运行时(内置二进制)。
