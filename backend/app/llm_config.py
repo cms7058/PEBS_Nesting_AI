@@ -10,7 +10,11 @@ from pathlib import Path
 
 from app.config import settings
 
-STORE = Path(__file__).resolve().parents[1] / "llm_config.json"
+import os
+
+_DATA_DIR = Path(os.environ.get("NESTING_DATA_DIR") or Path(__file__).resolve().parents[1])
+_DATA_DIR.mkdir(parents=True, exist_ok=True)
+STORE = _DATA_DIR / "llm_config.json"
 
 # 各 provider 的 .env 默认(作为回退与展示)
 DEFAULTS = {

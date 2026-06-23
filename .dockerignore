@@ -1,0 +1,25 @@
+# 后端构建上下文 = 仓库根目录,排除无关/体积大的目录
+.git
+.claude
+**/.venv/
+**/venv/
+**/__pycache__/
+*.pyc
+*.egg-info/
+**/node_modules/
+**/dist/
+*.tsbuildinfo
+# Rust 编译产物(镜像内重新编译)
+phase0/engines/bin_nester/target/
+phase0/engines/sparrow/
+phase0/out/
+phase0/datasets/
+phase0/samples/
+# 运行时数据 / 密钥
+**/.env
+backend/data/
+backend/llm_config.json
+backend/remnants.json
+# 文档 / 杂项
+*.docx
+.DS_Store

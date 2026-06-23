@@ -2,6 +2,7 @@
 out/
 __pycache__/
 *.pyc
-# 外部克隆（按 README 命令重建）
-engines/
+# 外部克隆 / 编译产物（按 README 重建）；bin_nester 自研源码入库
+engines/sparrow/
+engines/bin_nester/target/
 datasets/

@@ -18,8 +18,10 @@ backend/remnants.json
 backend/data/
 **/out/
 
-# ===== 外部克隆(体积大,按 phase0/README 重建)=====
-phase0/engines/
+# ===== 外部克隆 / 编译产物(按 phase0/README 重建)=====
+# 注:bin_nester 是自研 Rust 源码,需入库;只忽略其编译产物 target/
+phase0/engines/sparrow/
+phase0/engines/bin_nester/target/
 phase0/datasets/
 
 # ===== 本地 agent / IDE 配置 =====

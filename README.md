@@ -72,6 +72,23 @@
 
 ## 快速开始
 
+### 0. Docker 一键启动(推荐)
+
+无需本地装 Rust / Python / Node,`docker compose` 自动编译 Rust 求解器、装后端依赖、构建前端:
+
+```bash
+cp .env.docker.example .env   # 可选:预填 LLM key(也可启动后在前端「⚙ 模型配置」页填)
+docker compose up -d --build
+# 前端 http://localhost:8080 ;后端 API http://localhost:9100
+```
+
+- `backend` 镜像多阶段:`rust-builder` 编译 `bin_nester` → Python/FastAPI 运行时(内置二进制)。
+- `frontend` 镜像:Vite 构建 → nginx 托管并反代 `/api`、`/amiba` 到后端。
+- 运行时数据(`llm_config.json` / `remnants.json` / `amiba_projects.json`)持久化在命名卷 `nesting-data`。
+- 异形 strip-packing 的 `sparrow` 为可选引擎,未打入镜像;需要时按下文本地构建。
+
+下面是不使用 Docker 的本地开发方式:
+
 ### 1. 求解引擎(Rust,首次必装)
 ```bash
 # 安装 Rust(若无):curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh

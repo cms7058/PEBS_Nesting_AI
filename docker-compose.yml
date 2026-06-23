@@ -1,0 +1,41 @@
+# 智能排料 Copilot · 一键启动(后端 FastAPI + Rust 求解器 + 前端 nginx)
+#   cp .env.docker.example .env   # 可选:预填 LLM key(也可启动后在前端「⚙ 模型配置」页填)
+#   docker compose up -d --build
+#   打开 http://localhost:8080
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    image: pebs-nesting-backend
+    restart: unless-stopped
+    environment:
+      NESTING_DATA_DIR: /data
+      NEST_TIME_SEC: ${NEST_TIME_SEC:-20}
+      # LLM 凭证(留空则在前端模型配置页填写,持久化到 /data/llm_config.json)
+      LLM_PROVIDER: ${LLM_PROVIDER:-claude}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      CLAUDE_MODEL: ${CLAUDE_MODEL:-claude-opus-4-8}
+      QWEN_API_KEY: ${QWEN_API_KEY:-}
+      MINIMAX_API_KEY: ${MINIMAX_API_KEY:-}
+      GLM_API_KEY: ${GLM_API_KEY:-}
+      # PEBS 阿米巴上报(默认独立模式,休眠)
+      AMIBA_ENDPOINT: ${AMIBA_ENDPOINT:-}
+      AMIBA_TOKEN: ${AMIBA_TOKEN:-}
+    volumes:
+      - nesting-data:/data
+    ports:
+      - "9100:9100"          # 直连后端 API(可选,前端已反代)
+
+  frontend:
+    build:
+      context: ./frontend
+    image: pebs-nesting-frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "8080:80"
+
+volumes:
+  nesting-data:

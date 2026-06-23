@@ -9,13 +9,15 @@ Nesting 无自有登录门禁，故无需铸会话：用户从阿米巴「重新
 from __future__ import annotations
 
 import json
+import os
 import secrets
 import time
 import urllib.request
 from pathlib import Path
 from typing import Optional
 
-_DATA = Path(__file__).resolve().parents[1] / "data"
+_DATA = Path(os.environ.get("NESTING_DATA_DIR") or (Path(__file__).resolve().parents[1] / "data"))
+_DATA.mkdir(parents=True, exist_ok=True)
 _FILE = _DATA / "amiba_projects.json"
 LABOR_RATE = 60.0  # ¥/h 默认工价
 SCOPES = ["DXF 预处理与零件识别", "排样求解与共边优化", "余料调用核对", "出料表/NC 复核", "利用率与成本核算"]

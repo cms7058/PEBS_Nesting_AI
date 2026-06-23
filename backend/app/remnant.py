@@ -14,7 +14,11 @@ from pathlib import Path
 from shapely.geometry import Polygon
 from shapely.ops import unary_union
 
-STORE = Path(__file__).resolve().parents[1] / "remnants.json"
+import os
+
+_DATA_DIR = Path(os.environ.get("NESTING_DATA_DIR") or Path(__file__).resolve().parents[1])
+_DATA_DIR.mkdir(parents=True, exist_ok=True)
+STORE = _DATA_DIR / "remnants.json"
 GRID = 160  # 栅格分辨率(长边),越大越精确越慢
 
 
