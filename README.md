@@ -89,6 +89,8 @@ docker compose up -d --build
 FRONTEND_PORT=18080 ./deploy.sh   # 临时指定前端端口(避开已占端口)
 ```
 
+> 云服务器完整部署流程、运维命令与排错记录见 **[DEPLOY.md](DEPLOY.md)**。
+
 - `backend` 镜像多阶段:`rust-builder` 编译 `bin_nester` → Python/FastAPI 运行时(内置二进制)。
 - `frontend` 镜像:Vite 构建 → nginx 托管并反代 `/api`、`/amiba` 到后端。
 - 运行时数据(`llm_config.json` / `remnants.json` / `amiba_projects.json`)持久化在命名卷 `nesting-data`。
