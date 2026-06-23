@@ -6,8 +6,8 @@
 #   docker build -f backend/Dockerfile -t pebs-nesting-backend .
 
 # ---------- Stage 1: 编译 Rust 求解器 ----------
-# 注:依赖链含需要 edition2024 的 crate(如 clap_lex 1.1),需 Rust >= 1.85
-FROM rust:1.85-slim AS rust-builder
+# 注:jagua-rs 0.7.2 用到 let-chains(Rust 1.88 稳定)、依赖含 edition2024 crate;需 Rust >= 1.88
+FROM rust:1.90-slim AS rust-builder
 WORKDIR /build
 COPY phase0/engines/bin_nester/ ./bin_nester/
 RUN cd bin_nester && cargo build --release
