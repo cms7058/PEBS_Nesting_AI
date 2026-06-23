@@ -1,7 +1,14 @@
 # 智能排料 Copilot · 一键启动(后端 FastAPI + Rust 求解器 + 前端 nginx)
-#   cp .env.docker.example .env   # 可选:预填 LLM key(也可启动后在前端「⚙ 模型配置」页填)
+#   cp .env.docker.example .env   # 可选:预填 LLM key / 改端口
 #   docker compose up -d --build
-#   打开 http://localhost:8080
+#   打开 http://<服务器IP>:${FRONTEND_PORT:-8080}
+#
+# 共享服务器要点:
+#   - 仅前端对外发布端口;后端只跑在内部网络,不暴露公网(前端 nginx 已反代 /api、/amiba)。
+#   - FRONTEND_PORT 改成一个未被占用的端口即可,与其他项目互不干扰。
+#   - 顶层 name 固定本项目的 compose 工程名,容器/网络/卷都带此前缀,和其他项目隔离。
+name: pebs-nesting
+
 services:
   backend:
     build:
@@ -24,8 +31,10 @@ services:
       AMIBA_TOKEN: ${AMIBA_TOKEN:-}
     volumes:
       - nesting-data:/data
-    ports:
-      - "9100:9100"          # 直连后端 API(可选,前端已反代)
+    # 默认不对外发布后端端口(前端已反代)。如需在服务器本机调试,取消下行注释,
+    # 仅绑到 127.0.0.1,不暴露公网:
+    # ports:
+    #   - "127.0.0.1:${BACKEND_PORT:-9100}:9100"
 
   frontend:
     build:
@@ -35,7 +44,7 @@ services:
     depends_on:
       - backend
     ports:
-      - "8080:80"
+      - "${FRONTEND_PORT:-8080}:80"   # 改 .env 里的 FRONTEND_PORT 避开已占端口
 
 volumes:
   nesting-data:
